@@ -1,0 +1,31 @@
+{
+  "name": "tw-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp html && gulp css && gulp js",
+    "watch": "gulp watch"
+  },
+  "author": "Diki Siswanto",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "autoprefixer": "^9.8.6",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-nunjucks-render": "^2.2.3",
+    "gulp-postcss": "^8.0.0",
+    "gulp-pretty-html": "^2.0.10",
+    "gulp-purgecss": "^2.3.0",
+    "postcss-import": "^12.0.1",
+    "postcss-nested": "^4.2.3"
+  },
+  "dependencies": {
+    "tailwindcss": "^1.6.0"
+  }
+}
