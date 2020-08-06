@@ -7,6 +7,7 @@ const prettyHtml = require('gulp-pretty-html');
 const prettyCss = require('gulp-clean-css');
 const prettyJs = require('gulp-minify');
 const babel = require('gulp-babel');
+const include = require('gulp-include');
 
 gulp.task('css', () => {
 	const buildCss = gulp.src('./src/main.pcss')
@@ -37,6 +38,8 @@ gulp.task('html', () => {
 
 gulp.task('js', () => {
 	const buildJs = gulp.src('./src/scripts/main.js')
+		.pipe(include())
+		.on('error', console.log)
 		.pipe(concat('script.js'))
 		.pipe(babel({
 			presets: ['@babel/preset-env']
