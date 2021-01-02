@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>{{ title }}</title>
-	{% block style -%}{%- endblock %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  {% block meta %}
+    {% include "templates/meta.html" %}
+  {% endblock %}
+  {% block style -%}{%- endblock %}
 </head>
 <body>
-	{% block body -%}
-		{% block header -%}
-			{% include "templates/header.html" -%}
-		{%- endblock %}
-		{% block content -%}{%- endblock %}
-		{% block footer -%}
-			{% include "templates/footer.html" -%}
-		{%- endblock %}
-	{%- endblock %}
-	{% block scripts -%}{%- endblock %}
+  {% block body -%}
+    {% block header -%}
+      {% include "templates/header.html" -%}
+    {%- endblock %}
+    {% block content -%}{%- endblock %}
+    {% block footer -%}
+      {% include "templates/footer.html" -%}
+    {%- endblock %}
+  {%- endblock %}
+  {% block scripts -%}{%- endblock %}
 </body>
 </html>
