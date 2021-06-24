@@ -1,7 +1,9 @@
-{% set title = 'My title' -%}
+{% set title = 'Nunjucks + Tailwind Starter Page' -%}
 {% extends "templates/master.html" -%}
 
 {% block content -%}
-  <!-- Your content here -->
-  <h1>Your content here</h1>
+  <section class="container max-w-[1024px] mx-auto px-5 flex min-h-screen flex-col justify-center text-center gap-2">
+    <h1 class="font-bold text-5xl bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-blue-500 leading-snug">Tailwindcss <span class="text-3xl">x</span> Nunjucks</h1>
+    <p>You can start editing the page by modifying <code class="bg-gray-200 py-1 px-2 rounded text-blue-300">src/html/pages/index.html</code> or add new pages on the folder</p>
+  </section>
 {%- endblock %}
