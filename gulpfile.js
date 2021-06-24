@@ -200,7 +200,7 @@ gulp.task('build',
 
 // launching tasks when files change
 gulp.task('watch', () => {
-  gulp.watch(path.watch.html, gulp.series('html:build'));
+  gulp.watch(path.watch.html, gulp.series(['html:build', 'css:build']));
   gulp.watch(path.watch.css, gulp.series('css:build'));
   gulp.watch(path.watch.js, gulp.series('js:build'));
   gulp.watch(path.watch.img, gulp.series('image:build'));
