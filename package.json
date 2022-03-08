@@ -39,7 +39,7 @@
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "imagemin-jpeg-recompress": "^7.0.0",
-    "imagemin-pngquant": "^9.0.1",
+    "imagemin-pngquant": "^9.0.2",
     "postcss": "^8.3.5",
     "postcss-import": "^14.0.2",
     "postcss-nested": "^5.0.5",
