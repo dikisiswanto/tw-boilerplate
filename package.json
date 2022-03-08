@@ -47,6 +47,6 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
-    "tailwindcss": "^2.2.4"
+    "tailwindcss": "^3.0.23"
   }
 }
