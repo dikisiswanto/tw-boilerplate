@@ -1,0 +1,10 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "id-class-style": "off",
+    "indent-width": "off",
+    "line-end-style": "off",
+    "title-max-len": "off",
+    "spec-char-escape": "off"
+  }
+}

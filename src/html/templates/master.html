@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <title>{{ title }}</title>
@@ -6,7 +6,7 @@
     {% include "templates/meta.html" %}
   {% endblock %}
   {% block style -%}
-    <link rel="stylesheet" href="./assets/css/style.min.css">
+    {% if production %}<link rel="stylesheet" href="./assets/css/style.min.css">{% else %}<link rel="stylesheet" href="./assets/css/style.css">{% endif %}
   {%- endblock %}
 </head>
 <body>
@@ -20,7 +20,7 @@
     {%- endblock %}
   {%- endblock %}
   {% block scripts -%}
-    <script src="./assets/js/script.min.js"></script>
+    {% if production %}<script src="./assets/js/script.min.js"></script>{% else %}<script src="./assets/js/script.js"></script>{% endif %}
   {%- endblock %}
 </body>
 </html>

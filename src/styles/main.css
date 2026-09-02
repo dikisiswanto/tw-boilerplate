@@ -1,0 +1,5 @@
+@import "tailwindcss" source(none);
+
+/* Scan Nunjucks templates and JavaScript for Tailwind utility classes. */
+@source "../html";
+@source "../scripts";
