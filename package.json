@@ -16,7 +16,8 @@
     "format": "biome format --write scripts src/scripts",
     "format:check": "biome format scripts src/scripts",
     "validate": "node scripts/validate.mjs",
-    "check": "npm run format:check && npm run lint && npm run validate && npm run build"
+    "check": "npm run format:check && npm run lint && npm run build && npm run validate",
+    "lint:fix": "biome check --write scripts src/scripts"
   },
   "devDependencies": {
     "@babel/cli": "8.0.4",

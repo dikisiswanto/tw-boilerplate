@@ -1,8 +1,8 @@
-import { createServer } from 'node:http';
-import { readFile, stat } from 'node:fs/promises';
-import { watch } from 'node:fs';
-import { extname, join, relative, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
+import { watch } from 'node:fs';
+import { readFile, stat } from 'node:fs/promises';
+import { createServer } from 'node:http';
+import { extname, join, relative, resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 const build = join(root, 'build');
@@ -18,7 +18,10 @@ function runBuild() {
     return;
   }
   building = true;
-  const child = spawn(process.execPath, [join(root, 'scripts', 'build.mjs')], { cwd: root, stdio: 'inherit' });
+  const child = spawn(process.execPath, [join(root, 'scripts', 'build.mjs')], {
+    cwd: root,
+    stdio: 'inherit',
+  });
   child.on('exit', () => {
     building = false;
     if (clients.size) {
@@ -65,7 +68,11 @@ const server = createServer(async (request, response) => {
 
   const file = resolve(build, `.${requestPath}`);
   const relativeFile = relative(build, file);
-  if (relativeFile.startsWith('..') || relativeFile === '..' || resolve(build, relativeFile) !== file) {
+  if (
+    relativeFile.startsWith('..') ||
+    relativeFile === '..' ||
+    resolve(build, relativeFile) !== file
+  ) {
     response.writeHead(403).end('Forbidden');
     return;
   }
@@ -85,11 +92,9 @@ const server = createServer(async (request, response) => {
   }
 });
 
-function pathSeparator() {
-  return process.platform === 'win32' ? '\\\\' : '/';
-}
-
 runBuild();
 watchPath(join(root, 'src'));
 watchPath(join(root, 'public'));
-server.listen(port, host, () => console.log(`Dev server: http://${host}:${port}`));
+server.listen(port, host, () =>
+  console.log(`Dev server: http://${host}:${port}`),
+);

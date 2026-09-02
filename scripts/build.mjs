@@ -1,9 +1,9 @@
 import { execFile } from 'node:child_process';
-import { mkdir, rm, cp, readdir, writeFile } from 'node:fs/promises';
-import { promisify } from 'node:util';
+import { cp, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { extname, join, relative, resolve } from 'node:path';
-import nunjucks from 'nunjucks';
+import { promisify } from 'node:util';
 import { build as esbuild } from 'esbuild';
+import nunjucks from 'nunjucks';
 
 const execFileAsync = promisify(execFile);
 const root = resolve(import.meta.dirname, '..');
@@ -36,6 +36,18 @@ async function copyDirectory(source, destination) {
   await cp(source, destination, { recursive: true, force: true });
 }
 
+function normalizeHtml(html) {
+  return html
+    .replace(/^\uFEFF/, '')
+    .replace(/<!doctype\s+html>/i, '<!DOCTYPE html>')
+    .replace(/\r\n?/g, '\n')
+    .split('\n')
+    .map((line) => line.replace(/[ \t]+$/g, ''))
+    .join('\n')
+    .trimEnd()
+    .concat('\n');
+}
+
 async function renderHtml() {
   const env = nunjucks.configure(join(src, 'html'), {
     autoescape: true,
@@ -51,22 +63,30 @@ async function renderHtml() {
   for (const filename of entries) {
     const template = relative(join(src, 'html'), join(paths.html, filename));
     const output = join(build, filename);
-    const html = env.render(template, { production });
+    const rendered = env.render(template, { production });
+    const html = normalizeHtml(rendered);
     await writeFile(output, html, 'utf8');
   }
 }
 
 async function buildCss() {
-  const cli = join(root, 'node_modules', '.bin', process.platform === 'win32' ? 'tailwindcss.cmd' : 'tailwindcss');
+  const cli = join(
+    root,
+    'node_modules',
+    '.bin',
+    process.platform === 'win32' ? 'tailwindcss.cmd' : 'tailwindcss',
+  );
   const cssDir = join(build, 'assets', 'css');
   await ensureDir(cssDir);
 
   const devOutput = join(cssDir, 'style.css');
   await runCli(cli, ['-i', paths.styles, '-o', devOutput]);
 
-  const css = await import('node:fs/promises').then(({ readFile }) => readFile(devOutput, 'utf8'));
+  const css = await readFile(devOutput, 'utf8');
   if (!css.includes('mx-auto') && !css.includes('text-5xl')) {
-    throw new Error('Tailwind CSS build completed but no expected utility classes were generated. Check @source paths.');
+    throw new Error(
+      'Tailwind CSS build completed but no expected utility classes were generated. Check @source paths.',
+    );
   }
 
   if (production) {
@@ -89,12 +109,15 @@ async function buildJs() {
   await ensureDir(tempDir);
 
   const transpiled = join(tempDir, 'script.js');
-  await runCli(join(root, 'node_modules', '.bin', process.platform === 'win32' ? 'babel.cmd' : 'babel'), [
-    join(paths.scripts, 'main.js'),
-    '--out-file',
-    transpiled,
-    '--source-maps',
-  ]);
+  await runCli(
+    join(
+      root,
+      'node_modules',
+      '.bin',
+      process.platform === 'win32' ? 'babel.cmd' : 'babel',
+    ),
+    [join(paths.scripts, 'main.js'), '--out-file', transpiled, '--source-maps'],
+  );
 
   await esbuild({
     entryPoints: [transpiled],
@@ -121,7 +144,9 @@ async function main() {
   await ensureDir(build);
   await Promise.all([renderHtml(), buildCss(), buildJs(), buildAssets()]);
   await rm(join(build, '.tmp'), { recursive: true, force: true });
-  console.log(`Build complete: ${relative(root, build)}${production ? ' (production)' : ''}`);
+  console.log(
+    `Build complete: ${relative(root, build)}${production ? ' (production)' : ''}`,
+  );
 }
 
 await main();

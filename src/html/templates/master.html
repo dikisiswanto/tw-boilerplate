@@ -1,26 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>{{ title }}</title>
-  {% block meta %}
-    {% include "templates/meta.html" %}
-  {% endblock %}
-  {% block style -%}
-    {% if production %}<link rel="stylesheet" href="./assets/css/style.min.css">{% else %}<link rel="stylesheet" href="./assets/css/style.css">{% endif %}
-  {%- endblock %}
-</head>
-<body>
-  {% block body -%}
-    {% block header -%}
-      {% include "partials/header.html" -%}
-    {%- endblock %}
-    {% block content -%}{%- endblock %}
-    {% block footer -%}
-      {% include "partials/footer.html" -%}
-    {%- endblock %}
-  {%- endblock %}
-  {% block scripts -%}
-    {% if production %}<script src="./assets/js/script.min.js"></script>{% else %}<script src="./assets/js/script.js"></script>{% endif %}
-  {%- endblock %}
-</body>
+  <head>
+    <title>{{ title }}</title>
+
+    {% block meta %}
+      {% include "templates/meta.html" %}
+    {% endblock %}
+
+    {% block style %}
+      {% if production %}
+        <link rel="stylesheet" href="./assets/css/style.min.css">
+      {% else %}
+        <link rel="stylesheet" href="./assets/css/style.css">
+      {% endif %}
+    {% endblock %}
+  </head>
+
+  <body>
+    {% block body %}
+      {% block header %}
+        {% include "partials/header.html" %}
+      {% endblock %}
+
+      {% block content %}
+      {% endblock %}
+
+      {% block footer %}
+        {% include "partials/footer.html" %}
+      {% endblock %}
+    {% endblock %}
+
+    {% block scripts %}
+      {% if production %}
+        <script src="./assets/js/script.min.js"></script>
+      {% else %}
+        <script src="./assets/js/script.js"></script>
+      {% endif %}
+    {% endblock %}
+  </body>
 </html>

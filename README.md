@@ -83,3 +83,7 @@ scripts/
 - Native Node.js APIs: build orchestration, watching, and development server.
 
 Browser compatibility is controlled by the `browserslist` entry in `package.json`, rather than targeting obsolete browsers such as IE11.
+
+### Generated HTML formatting
+
+The build renders Nunjucks first, then formats the generated HTML with Nunjucks output normalization. This keeps `build/` readable and properly nested while still allowing `html-validate` to validate the final artifact. Nunjucks output normalization is build-time only and has no runtime dependencies.
